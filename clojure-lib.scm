@@ -21,10 +21,10 @@
             (reduce fun (fun init (car coll)) (cdr coll)))
         "Error: not a list"))
         
-(define (range limit) ;; not working
-    (if (= limit 1)
-        limit
-        (cons limit (range (dec limit)))))
+(define (range limit) ;; should use let
+        (if (= (dec limit) 0)
+            (list (dec limit))
+            (cons (dec limit) (range (dec limit)))))
         
 (define (length expr)
     (if (list? expr)
@@ -57,7 +57,15 @@
         y))
 
 (define (max coll)
-    (reduce biggest 0 coll))
+    (reduce biggest -99999999999 coll))
     
 (define (min coll)
     (reduce smallest 99999999999 coll))
+    
+;; SICP
+(define (first coll) (coll 1))
+(define (last coll) (coll 2))
+(define (pair first last)
+    (lambda (pick)
+        (cond ((= pick 1) first)
+              ((= pick 2) last))))
